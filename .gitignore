@@ -9,6 +9,7 @@ node_modules/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+cypress.env.json
 
 # Test reports / coverage
 coverage/

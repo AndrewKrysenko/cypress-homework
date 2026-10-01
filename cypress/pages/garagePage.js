@@ -215,6 +215,30 @@ class GaragePage extends BasePage {
     this.car(name).addExpenseButton.click();
     addExpenseModal.addExpense(data);
   }
+
+  // Видаляє всі авто користувача (разом з їхніми витратами) через UI
+  removeAllCars() {
+    // чекаємо, поки гараж завантажиться: або список авто, або порожній стан
+    cy.get('app-garage').find('.car-item, .panel-empty_message').should('exist');
+
+    cy.get('app-garage').then(($garage) => {
+      const count = $garage.find('.car-item').length;
+      if (count === 0) return;
+
+      this.carItems.first().find('.car_edit').click();
+      editCarModal.openRemoveCar();
+      removeCarModal.confirm();
+      removeCarModal.shouldBeClosed();
+
+      if (count > 1) {
+        this.carItems.should('have.length', count - 1);
+      } else {
+        this.emptyMessage.should('be.visible');
+      }
+
+      this.removeAllCars();
+    });
+  }
 }
 
 export const garagePage = new GaragePage();

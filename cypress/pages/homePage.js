@@ -36,8 +36,11 @@ class SignInModal extends BaseModal {
     if (rememberMe) this.rememberMeCheckbox.check();
   }
 
-  login(credentials) {
-    this.fill(credentials);
+  login({ email, password, rememberMe = false }) {
+    expect(email, "email from env").to.exist;
+    expect(password, "password from env").to.exist;
+
+    this.fill({ email, password, rememberMe });
     this.loginButton.click();
   }
 

@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("createExpense", (expenseBody) => {
+  return cy.env(["username", "password"]).then(({ username, password }) => {
+    return cy.request({
+      method: "POST",
+      url: "/api/expenses",
+      auth: { username, password },
+      body: expenseBody,
+    });
+  });
+});
